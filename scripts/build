@@ -1,0 +1,32 @@
+#!/bin/bash
+set -ex
+
+CPUs=(amd64 arm64)
+OSs=(linux darwin)
+VERSION=${VERSION:-HEAD}
+
+if [[ -z "$OAUTH_SECRET" ]]; then
+    echo "OAUTH_SECRET is not set"
+    exit 1
+fi
+
+if [[ -d out ]]; then
+    rm -rf out
+fi
+
+go generate ./...
+
+echo -n $OAUTH_SECRET > pkg/login/client_secret.txt
+
+for os in "${OSs[@]}"; do
+    for cpu in "${CPUs[@]}"; do
+        mkdir -p out/$os-$cpu
+        GOOS=$os GOARCH=$cpu go build -o out/$os-$cpu/zdv cmd/zdv/main.go
+        pushd out/$os-$cpu
+        ln -s zdv kubectl
+        tar -czf ../release-$os-$cpu.tar.gz zdv kubectl
+        popd
+    done
+done
+
+echo -n "" > pkg/login/client_secret.txt

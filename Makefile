@@ -7,7 +7,7 @@ COMPILER=go build -ldflags="$(LDFLAGS)"
 
 .PHONY: build
 build:
-	$(COMPILER) -o bin/main cmd/zdv/main.go
+	$(COMPILER) -o bin/zdv cmd/zdv/main.go
 
 .PHONY: clean
 clean:

@@ -1,0 +1,36 @@
+name: Publish Release
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Golang
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.18.3
+    - name: Run Tests
+      run: ./scripts/test
+    - name: Build Binaries
+      env:
+        OAUTH_SECRET: ${{ secrets.OAUTH_SECRET }}
+      run: ./scripts/build
+    - name: Create Tag
+      id: create_tag
+      run: |
+        tag=$(basename "${{ github.ref }}")
+        echo "::set-output name=tag::$tag"
+    - name: Create Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "${{ steps.create_tag.outputs.tag }}"
+        draft: true
+        title: "${{ steps.create_tag.outputs.tag }}"
+        files: "out/*.tar.gz"

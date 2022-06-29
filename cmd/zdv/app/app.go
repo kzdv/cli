@@ -24,6 +24,7 @@ func NewRootCommand() *cli.App {
 		Commands: []*cli.Command{
 			loginCommand(),
 			versionCommand(),
+			kubectlCommand(),
 		},
 		Before: func(c *cli.Context) error {
 			if c.Bool("debug") {
