@@ -3,7 +3,7 @@ set -e
 
 INSTALL_DIR=${INSTALL_DIR:-$HOME/.local/bin}
 
-version="1.0.0"
+version="1.1.0"
 os="linux"
 
 case "$OSTYPE" in

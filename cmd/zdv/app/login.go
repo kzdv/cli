@@ -22,7 +22,13 @@ func loginCommand() *cli.Command {
 
 			url := fmt.Sprintf("http://localhost:%d/authorize", login.PORT)
 
-			browser.OpenURL(url)
+			err := browser.OpenURL(url)
+			if err != nil {
+				fmt.Printf("Error opening browser: %v\n", err)
+			}
+
+			fmt.Println("If your browser did not open automatically, please navigate to the following URL:")
+			fmt.Println(url)
 
 			cred := <-s.Chan
 
