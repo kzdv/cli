@@ -29,6 +29,9 @@ else
   exit 1
 fi
 
+echo "Installing ZDV CLI Version $version for $os/$arch"
+echo ""
+
 echo "- Checking for local bin"
 if [[ ! -d "$HOME/.local/bin" ]]; then
     echo "  - Creating local bin"
@@ -43,3 +46,12 @@ tar -xzf /tmp/release.tar.gz -C "$INSTALL_DIR"
 
 echo "- Cleaning up"
 rm /tmp/release.tar.gz
+
+echo ""
+echo "Done!"
+echo "If not already, $INSTALL_DIR needs to be added to your PATH."
+echo ""
+echo "You can add to your path by running: export PATH=\"$INSTALL_DIR:\$PATH\""
+echo ""
+echo "To make it permanent, add the following to your .bashrc or .zshrc:"
+echo "export PATH=\"$INSTALL_DIR:\$PATH\""
