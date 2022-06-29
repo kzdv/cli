@@ -20,7 +20,9 @@ jobs:
     - name: Build Binaries
       env:
         OAUTH_SECRET: ${{ secrets.OAUTH_SECRET }}
-      run: ./scripts/build
+      run: |
+        version=$(basename "${{ github.ref }}")
+        ./scripts/build
     - name: Create Tag
       id: create_tag
       run: |
@@ -31,7 +33,6 @@ jobs:
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "${{ steps.create_tag.outputs.tag }}"
-        draft: true
         title: "${{ steps.create_tag.outputs.tag }}"
         files: "out/*.tar.gz"
     - name: Login to Docker Hub
