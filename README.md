@@ -10,7 +10,7 @@ You can use the following to run the cli in a containerized environment. This as
 any container runtime should work.
 
 ```bash
-docker run -it -p 12297:12297 -v $HOME:/mnt denartcc/cli:latest bash
+docker run -it -p 12297:12297 -v /tmp/config:/root/.config denartcc/cli:latest bash
 ```
 
 You can change the latest tag to a specific version if needed. They will be formatted as `v1.0.0`. The port 
