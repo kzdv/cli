@@ -10,7 +10,7 @@ RUN apt update && \
     gnupg-agent \
     software-properties-common \
     nano \
-    jq && \
+    jq \
     unzip && \
     apt upgrade -y && \
     wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && \
